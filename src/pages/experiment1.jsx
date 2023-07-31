@@ -1,13 +1,11 @@
 import React from "react";
-import { SliderNav } from "../components";
+import { SliderNav, GsapNav, DraggableNav } from "../components";
 
 const Experiment1 = () => {
   return (
-    <div>
-      <div>
-        <img src="/locations.svg" alt="locations" />
-      </div>
-      <SliderNav />
+    <div className="h-[3000px]">
+      <GsapNav />
+      <DraggableNav/>
     </div>
   );
 };

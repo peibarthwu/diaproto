@@ -40,7 +40,6 @@ const ScrollNav = () => {
     return () => {
       document.removeEventListener("scroll", onScroll);
       document.removeEventListener("scrollEnd", onScroll);
-
     };
   }, [pressed]);
 
