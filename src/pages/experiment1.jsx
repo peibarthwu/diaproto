@@ -1,10 +1,10 @@
 import React from "react";
-import { SliderNav, GsapNav, DraggableNav } from "../components";
+import { VerticalSlider, DraggableNav } from "../components";
 
 const Experiment1 = () => {
   return (
     <div className="h-[3000px]">
-      <GsapNav />
+            <VerticalSlider/>
       <DraggableNav/>
     </div>
   );

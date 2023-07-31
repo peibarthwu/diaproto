@@ -22,6 +22,7 @@ const GsapNav = () => {
         start: "top top",
         end: "bottom top",
         scrub: true,
+        bounds: {top: 0, left: 0, width:window.innerWidth, height: window.innerHeight},
         // markers: true,
       },
     });
@@ -32,13 +33,14 @@ const GsapNav = () => {
 
     Draggable.create(".moveable", {
         type:"y",
-        bounds:  document.querySelector(".container"),
+        bounds: {top: 0, left: 0, width:window.innerWidth, height: window.innerHeight},
         inertia: true,
         onClick: function() {
             console.log("clicked");
         },
-        onDragEnd: function() {
-            console.log("drag ended");
+        onDrag: function() {
+            const bottom = document.querySelector(".moveable").getBoundingClientRect().bottom
+            console.log(this.maxY)
         }
     });
     return () => {};

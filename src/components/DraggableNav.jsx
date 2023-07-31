@@ -8,8 +8,7 @@ const DraggableNav = () => {
   gsap.registerPlugin(Draggable);
 
   useEffect(() => {
-
-
+    
     Draggable.create(".top-slider", {
         type:"y",
         bounds: {top: 0, left: 0, width:window.innerWidth, height: window.innerHeight},

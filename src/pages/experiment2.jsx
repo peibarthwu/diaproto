@@ -1,5 +1,5 @@
 import React from "react";
-import { GrowingScrollNav, SliderNav } from "../components";
+import { VerticalSlider, SliderNav } from "../components";
 import { ScrollNav } from "../components";
 
 const Experiment2 = () => {
@@ -8,12 +8,10 @@ const Experiment2 = () => {
             <h1>
             Experiment2
             </h1>
-            <div className="h-[4000px]">
-            Content here
-            </div>
-            <SliderNav/>
-            <ScrollNav/>
-            <GrowingScrollNav/>
+            
+            {/* <SliderNav/> */}
+            <VerticalSlider/>
+            {/* <GrowingScrollNav/> */}
         </div>
     );
 };

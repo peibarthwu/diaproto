@@ -72,7 +72,7 @@ const ScrollNav = () => {
       <div className="w-[3px] bg-[#959BA2] h-screen fixed left-[150px] top-0"></div>
       <div
         ref={slider}
-        className="w-[20px] bg-[#959BA2] h-[20px] rounded-full fixed left-[141px] top-0"
+        className="w-[20px] bg-[#959BA2] h-[20px] rounded-full fixed left-[141px] -top-[9px]"
       ></div>
       <span ref={dateLabel} className="fixed left-[170px] top-0">
         Scroll me
