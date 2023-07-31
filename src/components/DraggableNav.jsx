@@ -12,26 +12,29 @@ const DraggableNav = () => {
 
     Draggable.create(".top-slider", {
         type:"y",
-        bounds:  document.querySelector(".container"),
+        bounds: {top: 0, left: 0, width:window.innerWidth, height: window.innerHeight},
         inertia: true,
         onClick: function() {
             console.log("clicked");
         },
-        onDragEnd: function() {
-            console.log("drag ended");
+        onDrag: function() {
+            const newBottom = document.querySelector(".bottom-slider").getBoundingClientRect().top
+            this.applyBounds({top: 0, left: 0, width:window.innerWidth, height: newBottom})
         }
     });
 
     Draggable.create(".bottom-slider", {
         type:"y",
-        bounds: document.querySelector(".container"),
+        // bounds: document.querySelector(".container"),
+        bounds: {top: 0, left: 0, width:window.innerWidth, height: window.innerHeight},
         inertia: true,
         onClick: function() {
             console.log("clicked");
-            applyBounds( { top: document.querySelector(".container").getBoundingClientRect().bottom }) 
+
         },
-        onDragEnd: function() {
-            console.log("drag ended");
+        onDrag: function() {
+            const newTop = document.querySelector(".top-slider").getBoundingClientRect().bottom
+            this.applyBounds({top: newTop, left: 0, width:window.innerWidth, height: window.innerHeight-newTop})
         }
     });
     return () => {};
