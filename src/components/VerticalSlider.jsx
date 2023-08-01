@@ -74,7 +74,7 @@ const VerticalSlider = () => {
           </span>
         </div>
       </div>
-      <div className="h-[10000px] w-1/2">
+      <div className="h-[10000px] w-1/2 mx-[25%]">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae
         ultricies leo integer malesuada. In metus vulputate eu scelerisque. Hac
