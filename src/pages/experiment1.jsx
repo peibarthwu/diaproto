@@ -1,12 +1,9 @@
 import React from "react";
-import { VerticalSlider } from "../components";
+import { CollapsibleList } from "../components";
 
 const Experiment1 = () => {
-  return (
-    <div className="h-[3000px]">
-            <VerticalSlider/>
-    </div>
-  );
+  return <CollapsibleList />;
+
 };
 
 export default Experiment1;

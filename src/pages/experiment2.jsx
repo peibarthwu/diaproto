@@ -1,19 +1,8 @@
 import React from "react";
-import { VerticalSlider, SliderNav } from "../components";
-import { ScrollNav } from "../components";
+import { SpaceTime, CollapsibleList, HorizontalDrag } from "../components";
 
 const Experiment2 = () => {
-    return (
-        <div>
-            <h1>
-            Experiment2
-            </h1>
-            
-            {/* <SliderNav/> */}
-            <VerticalSlider/>
-            {/* <GrowingScrollNav/> */}
-        </div>
-    );
+  return <CollapsibleList />;
 };
- 
+
 export default Experiment2;

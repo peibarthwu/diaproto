@@ -1,10 +1,11 @@
 import React from 'react';
-import { VerticalSlider } from "../components";
+import { VerticalSlider, HorizontalDrag } from "../components";
 
 const Home = () => {
     return (
         <div>
             <VerticalSlider/>
+            <HorizontalDrag/>
         </div>
     );
 };
