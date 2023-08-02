@@ -7,7 +7,7 @@ const CollapsibleList = () => {
     <div className="flex flex-col w-screen min-h-screen justify-evenly absolute top-0 left-0">
       <Collapsible trigger={<HorizontalDrag date={1970} />} overflowWhenOpen="scroll" className="max-h-1/2">
         <div className="pt-20 flex flex-row">
-          <img src="./dia.png" className="w-full" />
+          <img src="./dia.png" className="h-fit" />
           <img src="./dia.png" className="w-full" />
           <img src="./dia.png" className="w-full" />
 
