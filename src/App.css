@@ -44,3 +44,9 @@
 .read-the-docs {
   color: #888;
 }
+
+.Collapsible__contentInner{
+  max-height: 60vh;
+  overflow-y: hidden;
+  overflow-x: scroll;
+}
