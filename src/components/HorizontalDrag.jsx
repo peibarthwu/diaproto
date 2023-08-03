@@ -65,7 +65,7 @@ const HorizontalDrag = (props) => {
 
   return (
     <div className="relative">
-      <div className="bar bg-[#959BA2] my-[20px] h-[2px] absolute top-0 left-0 right-0">
+      <div className="bar bg-[#959BA2] h-[2px] absolute top-0 left-0 right-0">
         <div
           id="handler"
           ref={handlerRef}
