@@ -6,12 +6,17 @@ import { Draggable } from "gsap/Draggable";
 
 const SpaceTime = () => {
   const handlerRef = useRef(null);
+  const horizontalRef = useRef(null);
+  const verticalRef = useRef(null);
+
   const labelTextRef = useRef(null);
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
   const yearInterval = 1;
   const startYear = 1983;
   const endYear = 2024;
+  const [year, setYear] = useState(startYear);
+  const [location, setLocation] = useState("New York");
 
   useEffect(() => {
     let handler = handlerRef.current,
@@ -29,10 +34,19 @@ const SpaceTime = () => {
     });
 
     draggable = Draggable.create(handler, {
-      type: "y",
-      bounds: ".bar",
+      type: "x,y",
+      // bounds: ".merp",
       onDrag: function () {
+        horizontalRef.current.style.visibility = "visible"
+        verticalRef.current.style.visibility = "visible"
+
         trigger.scroll((this.y / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
+        gsap.set(horizontalRef.current, { y: this.y });
+        gsap.set(verticalRef.current, { x: this.x });
+      },
+      onDragEnd: function () {
+        horizontalRef.current.style.visibility = "hidden"
+        verticalRef.current.style.visibility = "hidden"
       },
     })[0];
 
@@ -40,40 +54,45 @@ const SpaceTime = () => {
       if (trigger) {
         maxScroll = ScrollTrigger.maxScroll(window); // record the maximum scroll value for the page
         barLength =
-          document.querySelector(".bar").offsetHeight - handler.offsetHeight;
+          document.querySelector(".bar").offsetHeight;
         updateHandler();
       }
     }
     onResize();
 
-    function setText(y) {
+    function setText(x, y) {
       const percent = y / window.innerHeight;
       labelTextRef.current.innerHTML =
-        startYear + Math.round((endYear - startYear) * percent);
+        startYear + Math.round((endYear - startYear) * percent) + ", " + x;
     }
 
     function updateHandler() {
-      // move the handler to the corresponding ratio according to the page's scroll position.
+      //move the handler to the corresponding ratio according to the page's scroll position.
       const newY = (barLength * trigger.scroll()) / maxScroll;
-      setText(newY);
+      setText(draggable.x, newY);
       gsap.set(handler, { y: newY });
+      gsap.set(horizontalRef.current, { y: newY });
     }
   }, []);
 
   return (
-    <>
-      <div className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0">
-        <div
-          id="handler"
-          ref={handlerRef}
-          className="relative z-1  -left-[9px]"
-        >
-          <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
-          <span className="absolute top-0 left-[25px]" ref={labelTextRef}>
-            {startYear}
-          </span>
-        </div>
+    <div>
+      <div className="merp w-screen min-h-screen absolute top-0 left-0 right-0 bottom-0">
       </div>
+      <div
+        ref={verticalRef}
+        className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0"
+      ></div>
+      <div id="handler" ref={handlerRef} className="fixed top-0 left-[10px] bottom-0">
+        <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
+        <span className="relative top-0 left-[25px]" ref={labelTextRef}>
+          {startYear} , Location
+        </span>  
+      </div>
+      <div
+        ref={horizontalRef}
+        className="bg-[#959BA2] h-[2px] fixed top-[10px] left-0 right-0"
+      ></div>
       <div className="h-[10000px] w-1/2 mx-[25%]">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae
@@ -243,7 +262,8 @@ const SpaceTime = () => {
         tellus molestie nunc. Montes nascetur ridiculus mus mauris vitae
         ultricies leo integer.
       </div>
-    </>
+
+    </div>
   );
 };
 

@@ -1,8 +1,15 @@
 import React from "react";
-import { SpaceTime, CollapsibleList, HorizontalDrag } from "../components";
+import { SpaceTime } from "../components";
 
 const Experiment2 = () => {
-  return <CollapsibleList />;
+
+  return (
+    <>
+    <h1> Space-Time Continuum</h1>
+      <SpaceTime />
+
+    </>
+  );
 };
 
 export default Experiment2;

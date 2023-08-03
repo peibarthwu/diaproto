@@ -1,8 +1,12 @@
 import React from "react";
 import { HorizontalDrag } from "./";
 import Collapsible from "react-collapsible";
+import { useState } from "react";
 
 const CollapsibleList = () => {
+  const [open, setOpen] = useState(false);
+
+  
   return (
     <div className="flex flex-col w-screen min-h-screen justify-evenly absolute top-0 left-0">
       <Collapsible

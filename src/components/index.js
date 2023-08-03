@@ -1,4 +1,5 @@
 export { default as CollapsibleList } from './CollapsibleList';
+export { default as CollapsibleTimeline } from './CollapsibleTimeline';
 export { default as DraggableNav } from './DraggableNav';
 export { default as GrowingScrollNav } from './GrowingScrollNav';
 export { default as GsapNav } from './GsapNav';
