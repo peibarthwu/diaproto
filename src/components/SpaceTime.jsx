@@ -8,15 +8,16 @@ const SpaceTime = () => {
   const handlerRef = useRef(null);
   const horizontalRef = useRef(null);
   const verticalRef = useRef(null);
-
-  const labelTextRef = useRef(null);
+  const locationRef = useRef(null)
+  const yearLabelRef = useRef(null);
+  const locationLabelRef = useRef(null);
+  const bottomDotRef = useRef(null);
+  const contentRef = useRef(null);
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
   const yearInterval = 1;
   const startYear = 1983;
   const endYear = 2024;
-  const [year, setYear] = useState(startYear);
-  const [location, setLocation] = useState("New York");
 
   useEffect(() => {
     let handler = handlerRef.current,
@@ -36,9 +37,16 @@ const SpaceTime = () => {
     draggable = Draggable.create(handler, {
       type: "x,y",
       // bounds: ".merp",
+      onDragStart: function () {
+        gsap.to(bottomDotRef.current, {top: 28, duration: 0.1});
+        gsap.to(locationLabelRef.current, {opacity: 1, duration: 0.2});
+        gsap.to(contentRef.current, {opacity: 0.2, duration: 0.2});
+
+      },
       onDrag: function () {
         horizontalRef.current.style.visibility = "visible"
         verticalRef.current.style.visibility = "visible"
+        locationRef.current.style.visibility = "visible"
 
         trigger.scroll((this.y / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
         gsap.set(horizontalRef.current, { y: this.y });
@@ -47,6 +55,12 @@ const SpaceTime = () => {
       onDragEnd: function () {
         horizontalRef.current.style.visibility = "hidden"
         verticalRef.current.style.visibility = "hidden"
+        locationRef.current.style.visibility = "hidden"
+        gsap.to(bottomDotRef.current, {top: 0, duration: 0.1});
+        gsap.to(locationLabelRef.current, {opacity: 0, duration: 0.2});
+        gsap.to(contentRef.current, {opacity: 1, duration: 0.2});
+
+
       },
     })[0];
 
@@ -62,8 +76,9 @@ const SpaceTime = () => {
 
     function setText(x, y) {
       const percent = y / window.innerHeight;
-      labelTextRef.current.innerHTML =
-        startYear + Math.round((endYear - startYear) * percent) + ", " + x;
+      yearLabelRef.current.innerHTML =
+        startYear + Math.round((endYear - startYear) * percent);
+      locationLabelRef.current.innerHTML = "Location: " + x;
     }
 
     function updateHandler() {
@@ -77,23 +92,40 @@ const SpaceTime = () => {
 
   return (
     <div>
-      <div className="merp w-screen min-h-screen absolute top-0 left-0 right-0 bottom-0">
+      
+      <div 
+      ref={locationRef}
+      className="invisible merp w-screen min-h-screen fixed top-0 left-0 right-0 bottom-0 justify-center align-center flex fixed">
+        <img src="locations.svg" className="w-1/2"></img>
       </div>
       <div
         ref={verticalRef}
-        className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0"
+        className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0 opacity-50"
       ></div>
       <div id="handler" ref={handlerRef} className="fixed top-0 left-[10px] bottom-0">
         <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
-        <span className="relative top-0 left-[25px]" ref={labelTextRef}>
+        <span 
+          ref={yearLabelRef}
+          className="relative -top-[22px] left-[25px]">
           {startYear} , Location
+        </span>  
+        <div 
+          ref={bottomDotRef}
+          className="w-[20px] h-[20px] rounded-full bg-[#959BA2] absolute top-0 left-0"
+        ></div>
+        <span 
+          ref={locationLabelRef}
+          className="absolute left-[25px] top-[25px] opacity-0">
+          Location
         </span>  
       </div>
       <div
         ref={horizontalRef}
-        className="bg-[#959BA2] h-[2px] fixed top-[10px] left-0 right-0"
+        className="bg-[#959BA2] h-[2px] fixed top-[10px] left-0 right-0 opacity-50"
       ></div>
-      <div className="h-[10000px] w-1/2 mx-[25%]">
+      <div 
+      ref={contentRef}
+      className="h-[10000px] w-1/2 mx-[25%]">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae
         ultricies leo integer malesuada. In metus vulputate eu scelerisque. Hac
