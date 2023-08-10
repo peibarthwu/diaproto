@@ -13,6 +13,7 @@ const CollapsibleElement = (props) => {
 
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
+
   const yearInterval = 1;
   const startYear = props.date ? props.date : 1970;
   const endYear = startYear + 9;
@@ -25,6 +26,7 @@ const CollapsibleElement = (props) => {
       trigger,
       draggable;
 
+    let maxLabelPos = document.querySelector(".bar").offsetWidth - labelTextRef.current.offsetWidth;
     // this ScrollTrigger will use the window/<body> by default, calling onRefresh when the page resizes, and onUpdate whenever any scroll happens.
     //TODO see if there is an on create method and run onResize there
     trigger = ScrollTrigger.create({
@@ -38,7 +40,7 @@ const CollapsibleElement = (props) => {
       onUpdate: onResize,
       trigger: handler,
       scrub: true,
-      end: `+=${scrollRef.current.offsetWidth * 3}`,
+      end: `+=${scrollRef.current.offsetWidth * 3}`, //hardcoded for now. there are 3 images
     });
 
     draggable = Draggable.create(handler, {
@@ -54,24 +56,15 @@ const CollapsibleElement = (props) => {
       },
     })[0];
 
-    //  Draggable.create(labelTextRef.current, {
-    //     type: "x",
-    //     bounds: {
-    //       minX: 0,
-    //       maxX: barRef.current.offsetWidth - labelTextRef.current.offsetWidth,
-    //     },
-    //     onDragStart: onResize,
-    //     onDrag: function () {
-    //       setText(this.x);
-    //       trigger.scroll((this.x / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
-    //     },
-    //   })[0];
+    //labelTextRef.current.applyBounds({minX: 0, maxX: barRef.current.offsetWidth - labelTextRef.current.offsetWidth})
+
 
     function onResize() {
+       
+        
         maxScroll = ScrollTrigger.maxScroll(scrollRef.current, true); // record the maximum scroll value for the page
         barLength = document.querySelector(".bar").offsetWidth - handler.offsetWidth;
         updateHandler();
-      
     }
 
     function setText(x) {
@@ -91,7 +84,20 @@ const CollapsibleElement = (props) => {
       setText(newX);
       console.log(newX)
       gsap.set(handler, { x: newX });
+      gsap.set(labelTextRef.current , { x: newX < maxLabelPos ? newX : maxLabelPos });
+
     }
+
+    const onResizeWindow = () => {
+         if(draggable){
+            draggable.applyBounds({
+                minX: 0,
+                maxX: barRef.current.offsetWidth - handler.offsetWidth,
+            })
+        }
+        maxLabelPos = document.querySelector(".bar").offsetWidth - labelTextRef.current.offsetWidth;
+    }
+    window.addEventListener('resize',  onResizeWindow)
 
   }, []);
 
@@ -106,10 +112,10 @@ const CollapsibleElement = (props) => {
             >
               <div
                 id="handler"
-                ref={handlerRef}
+                
                 className="relative z-1  -top-[9px] left-0 w-[20px]"
               >
-                <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
+                <div ref={handlerRef} className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
                 <span className="absolute left-0 top-[20px]" ref={labelTextRef}>
                   {startYear}
                 </span>
