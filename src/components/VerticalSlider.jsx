@@ -10,19 +10,19 @@ const data = [
     entries: 3,
   },
   {
-    year: 2001,
+    year: 1973,
     entries: 0,
   },
   {
-    year: 2002,
+    year: 1974,
     entries: 1,
   },
   {
-    year: 2003,
+    year: 1975,
     entries: 4,
   },
   {
-    year: 2004,
+    year: 1976,
     entries: 2,
   },
 ];
@@ -33,7 +33,7 @@ const VerticalSlider = () => {
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
   const yearInterval = 1;
-  const startYear = 1983;
+  const startYear = 1973;
   const endYear = 2024;
 
   const [currYear, setCurrYear] = useState(startYear);
@@ -75,9 +75,9 @@ const VerticalSlider = () => {
       const percent = y / window.innerHeight;
       const newYear = startYear + Math.round((endYear - startYear) * percent);
       labelTextRef.current.innerHTML = newYear
-//       setCurrYear(newYear)
-//       console.log({newYear})
-// console.log({calc: startYear-currYear})
+      setCurrYear(newYear)
+      console.log({newYear})
+console.log({calc: startYear-currYear})
 
     }
 
@@ -101,7 +101,10 @@ const VerticalSlider = () => {
           <span className="absolute top-0 left-[25px]" ref={labelTextRef}>
             {startYear}
           </span>
-          {/* <div>{data[startYear-currYear].entries}</div> */}
+          {-1*(startYear-currYear) < data.length  &&
+           <div>{data[-1*(startYear-currYear)].entries}</div>
+          }
+         
         </div>
       </div>
       <div className="h-[10000px] w-1/2 mx-[25%]">
