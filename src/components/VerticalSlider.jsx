@@ -4,6 +4,29 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
 
+const data = [
+  {
+    year: 2000,
+    entries: 3,
+  },
+  {
+    year: 2001,
+    entries: 0,
+  },
+  {
+    year: 2002,
+    entries: 1,
+  },
+  {
+    year: 2003,
+    entries: 4,
+  },
+  {
+    year: 2004,
+    entries: 2,
+  },
+];
+
 const VerticalSlider = () => {
   const handlerRef = useRef(null);
   const labelTextRef = useRef(null);
@@ -12,6 +35,8 @@ const VerticalSlider = () => {
   const yearInterval = 1;
   const startYear = 1983;
   const endYear = 2024;
+
+  const [currYear, setCurrYear] = useState(startYear);
 
   useEffect(() => {
     let handler = handlerRef.current,
@@ -48,8 +73,12 @@ const VerticalSlider = () => {
 
     function setText(y) {
       const percent = y / window.innerHeight;
-      labelTextRef.current.innerHTML =
-        startYear + Math.round((endYear - startYear) * percent);
+      const newYear = startYear + Math.round((endYear - startYear) * percent);
+      labelTextRef.current.innerHTML = newYear
+//       setCurrYear(newYear)
+//       console.log({newYear})
+// console.log({calc: startYear-currYear})
+
     }
 
     function updateHandler() {
@@ -72,6 +101,7 @@ const VerticalSlider = () => {
           <span className="absolute top-0 left-[25px]" ref={labelTextRef}>
             {startYear}
           </span>
+          {/* <div>{data[startYear-currYear].entries}</div> */}
         </div>
       </div>
       <div className="h-[10000px] w-1/2 mx-[25%]">
