@@ -3,12 +3,40 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
+import { Dot } from "./";
+
+const data = [
+  {
+    city: "Marfa",
+    state: "Texas",
+    lat: 30.310646822592897,
+    long: -104.02083509934168,
+  },
+  {
+    city: "Cologne",
+    state: "Germany",
+    lat: 50.93725424444354,
+    long: 6.963878595994134,
+  },
+  {
+    city: "New York",
+    state: "New York",
+    lat: 40.70951235877124,
+    long: -74.01543765182817,
+  },
+  {
+    city: "Beacon",
+    state: "New York",
+    lat: 41.504698143404106,
+    long: -73.96911047641316,
+  },
+];
 
 const SpaceTime = () => {
   const handlerRef = useRef(null);
   const horizontalRef = useRef(null);
   const verticalRef = useRef(null);
-  const locationRef = useRef(null)
+  const locationRef = useRef(null);
   const yearLabelRef = useRef(null);
   const locationLabelRef = useRef(null);
   const bottomDotRef = useRef(null);
@@ -19,7 +47,74 @@ const SpaceTime = () => {
   const startYear = 1983;
   const endYear = 2024;
 
+  let cities = [];
+  let states = [];
+  let lats = [];
+  let longs = [];
+  //turn data into lists
+  for (let i = 0; i<data.length; i++){
+    cities.push(data[i].city)
+    states.push(data[i].state)
+    lats.push(data[i].lat)
+    longs.push(data[i].long)
+  }
+
+  const getMin = (list) => {
+    let min = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (i < min) {
+        min = i;
+      }
+    }
+    return min;
+  };
+
+  const getMax = (list) => {
+    let max = 0;
+    for (let i = 0; i < list.length; i++) {
+      if (i > max) {
+        max = i;
+      }
+    }
+    return max;
+  };
+
+  const getScreenCoordinates = (
+    lat,
+    long,
+    minLat,
+    maxLat,
+    minLong,
+    maxLong
+  ) => {
+    //no negative values
+    //min possible lat is -90
+    let scaledMinLat = minLat + 90;
+    let scaledMaxLat = maxLat + 90;
+
+    //min possible lat is -180
+    let scaledMinLong = minLong + 180;
+    let scaledMaxLong = maxLong + 180;
+
+    const latRange = scaledMaxLat - scaledMinLat;
+    const longRange = scaledMaxLong - scaledMinLong;
+
+    let scaledLat = lat + 90;
+    let scaledLong = long + 90;
+
+    let x = (scaledLat / latRange) * window.innerWidth;
+    let y = (scaledLong / longRange) * window.innerHeight;
+
+    return { x: x, y: y };
+  };
+
   useEffect(() => {
+    //set up location values
+    for(let i = 0; i < cities.length; i++){
+
+    }
+
+    //set up navigation values
     let handler = handlerRef.current,
       barLength,
       maxScroll,
@@ -31,44 +126,40 @@ const SpaceTime = () => {
     trigger = ScrollTrigger.create({
       onRefresh: onResize,
       onUpdate: updateHandler,
-      markers: true,
+      // markers: true,
     });
 
     draggable = Draggable.create(handler, {
       type: "x,y",
       // bounds: ".merp",
       onDragStart: function () {
-        gsap.to(bottomDotRef.current, {top: 28, duration: 0.1});
-        gsap.to(locationLabelRef.current, {opacity: 1, duration: 0.2});
-        gsap.to(contentRef.current, {opacity: 0.2, duration: 0.2});
-
+        gsap.to(bottomDotRef.current, { top: 28, duration: 0.1 });
+        gsap.to(locationLabelRef.current, { opacity: 1, duration: 0.2 });
+        gsap.to(contentRef.current, { opacity: 0.2, duration: 0.2 });
       },
       onDrag: function () {
-        horizontalRef.current.style.visibility = "visible"
-        verticalRef.current.style.visibility = "visible"
-        locationRef.current.style.visibility = "visible"
+        horizontalRef.current.style.visibility = "visible";
+        verticalRef.current.style.visibility = "visible";
+        locationRef.current.style.visibility = "visible";
 
         trigger.scroll((this.y / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
         gsap.set(horizontalRef.current, { y: this.y });
         gsap.set(verticalRef.current, { x: this.x });
       },
       onDragEnd: function () {
-        horizontalRef.current.style.visibility = "hidden"
-        verticalRef.current.style.visibility = "hidden"
-        locationRef.current.style.visibility = "hidden"
-        gsap.to(bottomDotRef.current, {top: 0, duration: 0.1});
-        gsap.to(locationLabelRef.current, {opacity: 0, duration: 0.2});
-        gsap.to(contentRef.current, {opacity: 1, duration: 0.2});
-
-
+        horizontalRef.current.style.visibility = "hidden";
+        verticalRef.current.style.visibility = "hidden";
+        locationRef.current.style.visibility = "hidden";
+        gsap.to(bottomDotRef.current, { top: 0, duration: 0.1 });
+        gsap.to(locationLabelRef.current, { opacity: 0, duration: 0.2 });
+        gsap.to(contentRef.current, { opacity: 1, duration: 0.2 });
       },
     })[0];
 
     function onResize() {
       if (trigger) {
         maxScroll = ScrollTrigger.maxScroll(window); // record the maximum scroll value for the page
-        barLength =
-          document.querySelector(".bar").offsetHeight;
+        barLength = document.querySelector(".bar").offsetHeight;
         updateHandler();
       }
     }
@@ -92,40 +183,42 @@ const SpaceTime = () => {
 
   return (
     <div>
-      
-      <div 
-      ref={locationRef}
-      className="invisible merp w-screen min-h-screen fixed top-0 left-0 right-0 bottom-0 justify-center align-center flex fixed">
+      <div
+        ref={locationRef}
+        className="invisible w-screen min-h-screen fixed top-0 left-0 right-0 bottom-0 justify-center align-center flex fixed"
+      >
+        {data.map((object, i) => <Dot object={object} key={i} />)}
         <img src="locations.svg" className="w-1/2"></img>
       </div>
       <div
         ref={verticalRef}
         className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0 opacity-50"
       ></div>
-      <div id="handler" ref={handlerRef} className="fixed top-0 left-[10px] bottom-0">
+      <div
+        id="handler"
+        ref={handlerRef}
+        className="fixed top-0 left-[10px] bottom-0"
+      >
         <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
-        <span 
-          ref={yearLabelRef}
-          className="relative -top-[22px] left-[25px]">
-          {startYear} , Location
-        </span>  
-        <div 
+        <span ref={yearLabelRef} className="relative -top-[22px] left-[25px]">
+          Drag me
+        </span>
+        <div
           ref={bottomDotRef}
           className="w-[20px] h-[20px] rounded-full bg-[#959BA2] absolute top-0 left-0"
         ></div>
-        <span 
+        <span
           ref={locationLabelRef}
-          className="absolute left-[25px] top-[25px] opacity-0">
+          className="absolute left-[25px] top-[25px] opacity-0"
+        >
           Location
-        </span>  
+        </span>
       </div>
       <div
         ref={horizontalRef}
         className="bg-[#959BA2] h-[2px] fixed top-[10px] left-0 right-0 opacity-50"
       ></div>
-      <div 
-      ref={contentRef}
-      className="h-[10000px] w-1/2 mx-[25%]">
+      <div ref={contentRef} className="h-[10000px] w-1/2 mx-[25%]">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae
         ultricies leo integer malesuada. In metus vulputate eu scelerisque. Hac
@@ -294,7 +387,6 @@ const SpaceTime = () => {
         tellus molestie nunc. Montes nascetur ridiculus mus mauris vitae
         ultricies leo integer.
       </div>
-
     </div>
   );
 };

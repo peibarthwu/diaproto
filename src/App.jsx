@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route }
 import Home from './pages';
 import Experiment1 from './pages/experiment1';
 import Experiment2 from './pages/experiment2';
+import Experiment3 from './pages/experiment3';
 
  
 function App() {
@@ -16,6 +17,7 @@ function App() {
                 <Route exact path='/' element={<Home />} />
                 <Route path='/experiment1' element={<Experiment1 />} />
                 <Route path='/experiment2' element={<Experiment2 />} />
+                <Route path='/experiment3' element={<Experiment3 />} />
             </Routes>
         </Router>
     );

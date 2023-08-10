@@ -1,6 +1,26 @@
 {
-  "item1": { "name": "John", "date": 1970, "location": "New York" },
-  "item2": { "name": "John", "date": 1980, "location": "New York" },
-  "item3": { "name": "John", "date": 1992, "location": "New York" },
-  "item4": { "name": "John", "date": 2012, "location": "New York" }
+  "item1": { 
+    "city": "Marfa", 
+    "State": "Texas", 
+    "lat": 30.310646822592897, 
+    "long": -104.02083509934168 
+  },
+  "item2": { 
+    "city": "Cologne", 
+    "State": "Germany", 
+    "lat": 50.93725424444354, 
+    "long": 6.963878595994134 
+  },
+  "item3": { 
+    "city": "New York", 
+    "State": "New York", 
+    "lat": 40.70951235877124, 
+    "long": -74.01543765182817
+  },
+  "item4": { 
+    "city": "Beacon", 
+    "State": "New York", 
+    "lat": 41.504698143404106, 
+    "long": -73.96911047641316
+  }
 }
