@@ -30,7 +30,7 @@ const data = [
 const VerticalSlider = () => {
   const handlerRef = useRef(null);
   const labelTextRef = useRef(null);
-
+  const barRef = useRef(null);
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
 
@@ -81,6 +81,7 @@ const VerticalSlider = () => {
       setCurrYear(newYear);
       console.log({ newYear });
       console.log({ calc: startYear - currYear });
+
       //bold correct data
     }
 
@@ -90,6 +91,13 @@ const VerticalSlider = () => {
       setText(newY);
       gsap.set(handler, { y: newY });
     }
+
+    barRef.current.addEventListener("click", (e) => {
+      const newY = e.clientY;
+      trigger.scroll((e.clientY / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
+      setText(newY);
+      gsap.set(handler, { y: e.clientY });
+    });
   }, []);
 
   return (
@@ -99,7 +107,7 @@ const VerticalSlider = () => {
           { length: (endYear - startYear) / yearInterval },
           (_, i) => (
             <span
-              className={`w-[44px] h-[44px] pl-8 rounded-full absolute label`}
+              className={`w-[44px] h-[44px] pl-8 rounded-full absolute label color-red`}
               style={{
                 top: `${
                   ((((endYear - startYear) / yearInterval) * i) /
@@ -115,7 +123,10 @@ const VerticalSlider = () => {
           )
         )}
       </div>
-      <div className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 right-0 bottom-0">
+      <div
+        ref={barRef}
+        className="bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0"
+      >
         <div
           id="handler"
           ref={handlerRef}
@@ -131,7 +142,7 @@ const VerticalSlider = () => {
         </div>
       </div>
       <div className="h-[10000px] w-1/2 mx-[25%]">
-        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae
         ultricies leo integer malesuada. In metus vulputate eu scelerisque. Hac
         habitasse platea dictumst quisque sagittis purus sit amet volutpat.
@@ -297,7 +308,7 @@ const VerticalSlider = () => {
         imperdiet. Mi bibendum neque egestas congue. Duis convallis convallis
         tellus id interdum velit. Etiam tempor orci eu lobortis elementum nibh
         tellus molestie nunc. Montes nascetur ridiculus mus mauris vitae
-        ultricies leo integer. */}
+        ultricies leo integer.
       </div>
     </>
   );
