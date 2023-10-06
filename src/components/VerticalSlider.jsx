@@ -105,7 +105,7 @@ const VerticalSlider = () => {
                   ((((endYear - startYear) / yearInterval) * i) /
                     (endYear - startYear)) *
                     2 -
-                  1
+                  0.5
                 }%`,
               }}
               key={i}
