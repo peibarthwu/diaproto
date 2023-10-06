@@ -30,8 +30,10 @@ const data = [
 const VerticalSlider = () => {
   const handlerRef = useRef(null);
   const labelTextRef = useRef(null);
+
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
+
   const yearInterval = 1;
   const startYear = 1973;
   const endYear = 2024;
@@ -46,11 +48,12 @@ const VerticalSlider = () => {
       draggable;
     console.log(handler);
 
+    const labels = document.querySelectorAll(".label");
+    console.log(labels);
     // this ScrollTrigger will use the window/<body> by default, calling onRefresh when the page resizes, and onUpdate whenever any scroll happens.
     trigger = ScrollTrigger.create({
       onRefresh: onResize,
       onUpdate: updateHandler,
-      markers: true,
     });
 
     draggable = Draggable.create(handler, {
@@ -74,11 +77,11 @@ const VerticalSlider = () => {
     function setText(y) {
       const percent = y / window.innerHeight;
       const newYear = startYear + Math.round((endYear - startYear) * percent);
-      labelTextRef.current.innerHTML = newYear
-      setCurrYear(newYear)
-      console.log({newYear})
-console.log({calc: startYear-currYear})
-
+      //labelTextRef.current.innerHTML = newYear;
+      setCurrYear(newYear);
+      console.log({ newYear });
+      console.log({ calc: startYear - currYear });
+      //bold correct data
     }
 
     function updateHandler() {
@@ -92,6 +95,25 @@ console.log({calc: startYear-currYear})
   return (
     <>
       <div className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0">
+        {Array.from(
+          { length: (endYear - startYear) / yearInterval },
+          (_, i) => (
+            <span
+              className={`w-[44px] h-[44px] pl-8 rounded-full absolute label`}
+              style={{
+                top: `${
+                  ((((endYear - startYear) / yearInterval) * i) /
+                    (endYear - startYear)) *
+                    2 -
+                  1
+                }%`,
+              }}
+              key={i}
+            >
+              {startYear + i}
+            </span>
+          )
+        )}
         <div
           id="handler"
           ref={handlerRef}
@@ -99,16 +121,15 @@ console.log({calc: startYear-currYear})
         >
           <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
           <span className="absolute top-0 left-[25px]" ref={labelTextRef}>
-            {startYear}
+            {/* {startYear} */}
           </span>
-          {-1*(startYear-currYear) < data.length  &&
-           <div>{data[-1*(startYear-currYear)].entries}</div>
-          }
-         
+          {/* {-1 * (startYear - currYear) < data.length && (
+            <div>{data[-1 * (startYear - currYear)].entries}</div>
+          )} */}
         </div>
       </div>
       <div className="h-[10000px] w-1/2 mx-[25%]">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Mus mauris vitae
         ultricies leo integer malesuada. In metus vulputate eu scelerisque. Hac
         habitasse platea dictumst quisque sagittis purus sit amet volutpat.
@@ -274,7 +295,7 @@ console.log({calc: startYear-currYear})
         imperdiet. Mi bibendum neque egestas congue. Duis convallis convallis
         tellus id interdum velit. Etiam tempor orci eu lobortis elementum nibh
         tellus molestie nunc. Montes nascetur ridiculus mus mauris vitae
-        ultricies leo integer.
+        ultricies leo integer. */}
       </div>
     </>
   );
