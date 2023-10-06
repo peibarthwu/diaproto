@@ -77,7 +77,7 @@ const VerticalSlider = () => {
     function setText(y) {
       const percent = y / window.innerHeight;
       const newYear = startYear + Math.round((endYear - startYear) * percent);
-      //labelTextRef.current.innerHTML = newYear;
+      labelTextRef.current.innerHTML = newYear;
       setCurrYear(newYear);
       console.log({ newYear });
       console.log({ calc: startYear - currYear });
@@ -94,7 +94,7 @@ const VerticalSlider = () => {
 
   return (
     <>
-      <div className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 left-0 bottom-0">
+      <div className="fixed top-0 left-0 bottom-0">
         {Array.from(
           { length: (endYear - startYear) / yearInterval },
           (_, i) => (
@@ -114,14 +114,16 @@ const VerticalSlider = () => {
             </span>
           )
         )}
+      </div>
+      <div className="bar bg-[#959BA2] mx-[20px] w-[2px] fixed top-0 right-0 bottom-0">
         <div
           id="handler"
           ref={handlerRef}
           className="relative z-1  -left-[9px]"
         >
           <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
-          <span className="absolute top-0 left-[25px]" ref={labelTextRef}>
-            {/* {startYear} */}
+          <span className="absolute top-0 right-[25px]" ref={labelTextRef}>
+            {startYear}
           </span>
           {/* {-1 * (startYear - currYear) < data.length && (
             <div>{data[-1 * (startYear - currYear)].entries}</div>
