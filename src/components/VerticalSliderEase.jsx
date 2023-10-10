@@ -20,7 +20,14 @@ const VerticalSliderEase = () => {
   let entries = [];
   const numYears = (endYear - startYear) / yearInterval;
   for (let i = 0; i < numYears; i++) {
-    entries.push({ year: startYear + i, entries: 1 });
+    entries.push({
+      year: startYear + i,
+      entries: [
+        { title: "Entry 1" },
+        { title: "Entry 2" },
+        { title: "Entry 3" },
+      ],
+    });
   }
   useEffect(() => {
     let handler = handlerRef.current,
@@ -101,6 +108,24 @@ const VerticalSliderEase = () => {
         },
       });
     });
+
+    //horizontal scrubbing
+    // let yearEntries = document.querySelectorAll(".year-entry");
+    // for (let i = 0; i < yearEntries.length; i++) {
+    //   let sections = yearEntries[i].querySelectorAll(".panel");
+    //   console.log(yearEntries[i].offsetWidth);
+    //   gsap.to(sections, {
+    //     xPercent: -100 * (sections.length - 1),
+    //     ease: "none",
+    //     scrollTrigger: {
+    //       trigger: yearEntries[i],
+    //       pin: true,
+    //       scrub: 1,
+    //       snap: 1 / (sections.length - 1),
+    //       end: () => "+=" + yearEntries[i].offsetWidth,
+    //     },
+    //   });
+    // }
   }, []);
 
   return (
@@ -143,19 +168,25 @@ const VerticalSliderEase = () => {
       </div>
       <div className="flex flex-col">
         {entries.map((entry, i) => {
-          console.log("Entered");
+          console.log({ entry });
           // Return the element. Also pass key
           return (
-            <section
-              className="panel w-screen h-screen flex justify-center items-center text-3xl"
-              style={{
-                backgroundColor: `${i % 2 ? "black" : "white"}`,
-                color: `${i % 2 ? "white" : "black  "}`,
-              }}
-              key={entries.length + i}
-            >
-              {startYear + i}
-            </section>
+            <div className="flex flex-row year-entry flex-nowrap">
+              {entry.entries.map((entry, j) => {
+                return (
+                  <section
+                    className="panel w-screen h-screen flex justify-center items-center text-3xl"
+                    style={{
+                      backgroundColor: `${i % 2 ? "#555555" : "white"}`,
+                      color: `${i % 2 ? "#ffffff" : "#555555"}`,
+                    }}
+                    key={entries.length + i + j}
+                  >
+                    {startYear + i}, {entry.title}
+                  </section>
+                );
+              })}
+            </div>
           );
         })}
       </div>
