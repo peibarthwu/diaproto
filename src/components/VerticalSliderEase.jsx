@@ -4,30 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
 
-const data = [
-  {
-    year: 1973,
-    entries: 0,
-  },
-  {
-    year: 1974,
-    entries: 1,
-  },
-  {
-    year: 1975,
-    entries: 4,
-  },
-  {
-    year: 1976,
-    entries: 2,
-  },
-  {
-    year: 1977,
-    entries: 2,
-  },
-];
-
-const VerticalSlider = () => {
+const VerticalSliderEase = () => {
   const handlerRef = useRef(null);
   const labelTextRef = useRef(null);
   const barRef = useRef(null);
@@ -52,6 +29,7 @@ const VerticalSlider = () => {
       trigger,
       draggable;
     console.log(handler);
+    let animating = false;
 
     const labels = document.querySelectorAll(".label");
     console.log(labels);
@@ -64,8 +42,16 @@ const VerticalSlider = () => {
     draggable = Draggable.create(handler, {
       type: "y",
       bounds: ".bar",
-      onDrag: function () {
-        trigger.scroll((this.y / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
+      onDragEnd: function () {
+        animating = true;
+        gsap.to(trigger, {
+          scroll: (this.y / barLength) * maxScroll,
+          ease: "linear.inOut",
+          duration: 1,
+          onComplete: () => {
+            animating = false;
+          },
+        });
       },
     })[0];
 
@@ -91,10 +77,12 @@ const VerticalSlider = () => {
     }
 
     function updateHandler() {
-      // move the handler to the corresponding ratio according to the page's scroll position.
-      const newY = (barLength * trigger.scroll()) / maxScroll;
-      setText(newY);
-      gsap.set(handler, { y: newY });
+      if (!animating) {
+        // move the handler to the corresponding ratio according to the page's scroll position.
+        const newY = (barLength * trigger.scroll()) / maxScroll;
+        setText(newY);
+        gsap.set(handler, { y: newY });
+      }
     }
 
     barRef.current.addEventListener("click", (e) => {
@@ -121,7 +109,7 @@ const VerticalSlider = () => {
 
   return (
     <>
-      <div className="fixed top-0 left-0 bottom-0">
+      {/* <div className="fixed top-0 left-0 bottom-0">
         {entries.map((entry, i) => {
           return (
             <span
@@ -140,7 +128,8 @@ const VerticalSlider = () => {
             </span>
           );
         })}
-      </div>
+      </div> */}
+      <div className="opacity-0 bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0"></div>
       <div
         ref={barRef}
         className="bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0"
@@ -154,9 +143,6 @@ const VerticalSlider = () => {
           <span className="absolute top-0 right-[25px]" ref={labelTextRef}>
             {startYear}
           </span>
-          {/* {-1 * (startYear - currYear) < data.length && (
-            <div>{data[-1 * (startYear - currYear)].entries}</div>
-          )} */}
         </div>
       </div>
       <div className="flex flex-col">
@@ -181,4 +167,4 @@ const VerticalSlider = () => {
   );
 };
 
-export default VerticalSlider;
+export default VerticalSliderEase;

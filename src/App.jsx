@@ -1,28 +1,28 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { BrowserRouter as Router, Routes, Route }
-    from 'react-router-dom';
-import Home from './pages';
-import Experiment1 from './pages/experiment1';
-import Experiment2 from './pages/experiment2';
-import Experiment3 from './pages/experiment3';
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages";
+import Experiment1 from "./pages/experiment1";
+import Experiment2 from "./pages/experiment2";
+import Experiment3 from "./pages/experiment3";
+import Prototype1 from "./pages/prototype1";
 
- 
 function App() {
-    return (
-        <Router>
-            <Routes>
-                <Route exact path='/' element={<Home />} />
-                <Route path='/experiment1' element={<Experiment1 />} />
-                <Route path='/experiment2' element={<Experiment2 />} />
-                <Route path='/experiment3' element={<Experiment3 />} />
-            </Routes>
-        </Router>
-    );
+  return (
+    <Router>
+      <Routes>
+        <Route exact path="/" element={<Home />} />
+        <Route path="/experiment1" element={<Experiment1 />} />
+        <Route path="/experiment2" element={<Experiment2 />} />
+        <Route path="/experiment3" element={<Experiment3 />} />
+        <Route path="/prototype1" element={<Prototype1 />} />
+      </Routes>
+    </Router>
+  );
 }
- 
+
 export default App;
 // function App() {
 //   const [count, setCount] = useState(0)
