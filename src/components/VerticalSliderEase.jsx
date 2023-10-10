@@ -6,8 +6,10 @@ import { Draggable } from "gsap/Draggable";
 
 const VerticalSliderEase = (props) => {
   const horizontal = props.horizontal ? props.horizontal : false;
+
   const handlerRef = useRef(null);
   const labelTextRef = useRef(null);
+  const decadeRef = useRef(null);
   const barRef = useRef(null);
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
@@ -39,22 +41,28 @@ const VerticalSliderEase = (props) => {
     console.log(handler);
     let animating = false;
 
-    const labels = document.querySelectorAll(".label");
-    console.log(labels);
-
     trigger = ScrollTrigger.create({
       onRefresh: onResize,
       onUpdate: updateHandler,
     });
 
+    decadeRef.current.style.opacity = 0;
     draggable = Draggable.create(handler, {
       type: "y",
       bounds: ".bar",
+      onDragStart: function () {
+        gsap.to(decadeRef.current.style, {
+          opacity: 1,
+        });
+      },
       onDrag: function () {
         setText(this.y);
       },
       onDragEnd: function () {
         animating = true;
+        gsap.to(decadeRef.current.style, {
+          opacity: 0,
+        });
         gsap.to(trigger, {
           scroll: (this.y / barLength) * maxScroll,
           ease: "linear.inOut",
@@ -133,9 +141,47 @@ const VerticalSliderEase = (props) => {
       <div className="relative z-10">
         <div
           ref={barRef}
-          className="opacity-50 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0  bottom-0"
+          className="opacity-0 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0  bottom-0"
         ></div>
         <div className="bar bg-[#959BA2] right-0 md:left-0 mr-[75px] md:ml-[75px] w-[2px] fixed top-0  bottom-0">
+          <div
+            ref={decadeRef}
+            className="opacity-0 fixed top-0 right-0 md:left-0 bottom-0"
+          >
+            {entries.map((entry, i) => {
+              if (!((i + 1) % 10)) {
+                return (
+                  <>
+                    <div
+                      className="w-[20px] h-[20px] absolute mr-[66px] md:ml-[66px] rounded-full bg-[#959BA2] opacity-30"
+                      style={{
+                        top: `${
+                          ((((endYear - startYear) / yearInterval) * i) /
+                            (endYear - startYear)) *
+                            2 -
+                          0.5
+                        }%`,
+                      }}
+                    ></div>
+                    {/* <span
+                      className="absolute top-0 left-[27px] md:right-[27px]"
+                      style={{
+                        top: `${
+                          ((((endYear - startYear) / yearInterval) * i) /
+                            (endYear - startYear)) *
+                            2 -
+                          0.5
+                        }%`,
+                      }}
+                      key={i}
+                    >
+                      {startYear + i}
+                    </span> */}
+                  </>
+                );
+              }
+            })}
+          </div>
           <div
             id="handler"
             ref={handlerRef}
