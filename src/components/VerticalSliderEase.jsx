@@ -42,6 +42,10 @@ const VerticalSliderEase = () => {
     draggable = Draggable.create(handler, {
       type: "y",
       bounds: ".bar",
+      onDrag: function () {
+        console.log(this.y);
+        setText(this.y);
+      },
       onDragEnd: function () {
         animating = true;
         gsap.to(trigger, {
@@ -71,8 +75,6 @@ const VerticalSliderEase = () => {
       labelTextRef.current.innerHTML = newYear;
       setCurrYear(newYear);
       console.log({ newYear });
-      console.log({ calc: startYear - currYear });
-
       //bold correct data
     }
 
