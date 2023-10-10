@@ -152,16 +152,19 @@ const VerticalSliderEase = () => {
       </div> */}
       <div
         ref={barRef}
-        className="opacity-50 bar bg-[#3392ff] mr-[53px] w-[44px] fixed top-0 right-0 bottom-0"
+        className="opacity-50 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0  bottom-0"
       ></div>
-      <div className="bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0">
+      <div className="bar bg-[#959BA2] right-0 md:left-0 mr-[75px] md:ml-[75px] w-[2px] fixed top-0  bottom-0">
         <div
           id="handler"
           ref={handlerRef}
           className="relative z-1  -left-[9px]"
         >
           <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
-          <span className="absolute top-0 right-[25px]" ref={labelTextRef}>
+          <span
+            className="absolute top-0 left-[27px] md:right-[27px]"
+            ref={labelTextRef}
+          >
             {startYear}
           </span>
         </div>
@@ -171,7 +174,7 @@ const VerticalSliderEase = () => {
           console.log({ entry });
           // Return the element. Also pass key
           return (
-            <div className="flex flex-row year-entry flex-nowrap">
+            <div className="flex flex-row year-entry flex-nowrap overflow-x-scroll">
               {entry.entries.map((entry, j) => {
                 return (
                   <section
