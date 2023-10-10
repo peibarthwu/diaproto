@@ -3,10 +3,10 @@
 @tailwind utilities;
 
 #root {
-  max-width: 1280px;
+  /* max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
-  text-align: center;
+  text-align: center; */
   /* overflow-x: hidden; */
 }
 
@@ -50,4 +50,26 @@
   max-height: 60vh;
   overflow-y: hidden;
   overflow-x: scroll;
+}
+
+.container {
+	width: 400%;
+	height: 100vh;
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.firstContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: yellow;
+}
+
+.lastContainer {
+  display: flex;
+  height: 100vh;
+  background: yellow;
 }
