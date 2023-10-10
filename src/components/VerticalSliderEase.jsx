@@ -87,24 +87,18 @@ const VerticalSliderEase = () => {
 
     barRef.current.addEventListener("click", (e) => {
       const newY = e.clientY;
-      trigger.scroll((e.clientY / barLength) * maxScroll); // when dragging, scroll the page to the corresponding ratio
       setText(newY);
       gsap.set(handler, { y: e.clientY });
+      animating = true;
+      gsap.to(trigger, {
+        scroll: (e.clientY / barLength) * maxScroll,
+        ease: "linear.inOut",
+        duration: 1,
+        onComplete: () => {
+          animating = false;
+        },
+      });
     });
-
-    //horizontal scrubbing
-    // let sections = gsap.utils.toArray(".panel");
-    // gsap.to(sections, {
-    //   xPercent: -100 * (sections.length - 1),
-    //   ease: "none",
-    //   scrollTrigger: {
-    //     trigger: ".container",
-    //     pin: true,
-    //     scrub: 1,
-    //     snap: 1 / (sections.length - 1),
-    //     end: () => "+=" + document.querySelector(".container").offsetWidth,
-    //   },
-    // });
   }, []);
 
   return (
@@ -129,11 +123,11 @@ const VerticalSliderEase = () => {
           );
         })}
       </div> */}
-      <div className="opacity-0 bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0"></div>
       <div
         ref={barRef}
-        className="bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0"
-      >
+        className="opacity-50 bar bg-[#3392ff] mr-[53px] w-[44px] fixed top-0 right-0 bottom-0"
+      ></div>
+      <div className="bar bg-[#959BA2] mr-[75px] w-[2px] fixed top-0 right-0 bottom-0">
         <div
           id="handler"
           ref={handlerRef}
