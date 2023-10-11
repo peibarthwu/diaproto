@@ -11,6 +11,7 @@ const VerticalSliderEase = (props) => {
   const labelTextRef = useRef(null);
   const decadeRef = useRef(null);
   const barRef = useRef(null);
+  const dragIndicatorScreen = useRef(null);
   gsap.registerPlugin(ScrollTrigger);
   gsap.registerPlugin(Draggable);
 
@@ -41,12 +42,14 @@ const VerticalSliderEase = (props) => {
     console.log(handler);
     let animating = false;
 
+    console.log(1 / (numYears - 1));
     trigger = ScrollTrigger.create({
       onRefresh: onResize,
       onUpdate: updateHandler,
     });
 
     decadeRef.current.style.opacity = 0;
+
     draggable = Draggable.create(handler, {
       type: "y",
       bounds: ".bar",
@@ -54,6 +57,7 @@ const VerticalSliderEase = (props) => {
         gsap.to(decadeRef.current.style, {
           opacity: 1,
         });
+        dragIndicatorScreen.current.style.display = "block";
       },
       onDrag: function () {
         setText(this.y);
@@ -68,7 +72,9 @@ const VerticalSliderEase = (props) => {
           ease: "linear.inOut",
           duration: 1,
           onComplete: () => {
+            console.log("onComplete");
             animating = false;
+            dragIndicatorScreen.current.style.display = "none";
           },
         });
       },
@@ -93,6 +99,7 @@ const VerticalSliderEase = (props) => {
     }
 
     function updateHandler() {
+      console.log(animating);
       if (!animating) {
         // move the handler to the corresponding ratio according to the page's scroll position.
         const newY = (barLength * trigger.scroll()) / maxScroll;
@@ -121,14 +128,14 @@ const VerticalSliderEase = (props) => {
       let yearEntries = document.querySelectorAll(".year-entry");
       for (let i = 0; i < yearEntries.length; i++) {
         let sections = gsap.utils.toArray(".panel", yearEntries[i]);
-        gsap.to(sections, {
+        const tween = gsap.to(sections, {
           xPercent: -100 * (sections.length - 1),
           ease: "none",
           scrollTrigger: {
             trigger: yearEntries[i],
             pin: true,
             scrub: 1,
-            snap: 1 / (sections.length - 1),
+            // snap: 1 / (sections.length - 1),
             end: () => "+=" + yearEntries[i].offsetWidth,
           },
         });
@@ -220,6 +227,15 @@ const VerticalSliderEase = (props) => {
             </div>
           );
         })}
+        <div
+          className="backdrop-blur-sm w-screen md:opacity-0 h-screen fixed z-9 top-0 bottom-0 left-0 right-0 flex justify-center items-center text-3xl bg-black bg-opacity-10 color-white"
+          ref={dragIndicatorScreen}
+          style={{
+            display: "none",
+          }}
+        >
+          {currYear}
+        </div>
       </div>
     </>
   );
