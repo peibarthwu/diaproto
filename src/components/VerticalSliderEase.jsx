@@ -129,7 +129,6 @@ const VerticalSliderEase = (props) => {
 
     //horizontal scrubbing
     if (horizontal) {
-      document.body.style.overflowX = "hidden";
       let yearEntries = document.querySelectorAll(".year-entry");
       for (let i = 0; i < yearEntries.length; i++) {
         let sections = gsap.utils.toArray(".panel", yearEntries[i]);
