@@ -48,16 +48,16 @@ const VerticalSliderEase = (props) => {
       snap: horizontal ? false : 1 / (numYears - 1),
     });
 
-    decadeRef.current.style.opacity = 0;
+    // decadeRef.current.style.opacity = 0;
 
     draggable = Draggable.create(handler, {
       type: "y",
       bounds: ".bar",
       onDragStart: function () {
         console.log("drag start");
-        gsap.to(decadeRef.current.style, {
-          opacity: 1,
-        });
+        // gsap.to(decadeRef.current.style, {
+        //   opacity: 1,
+        // });
         dragIndicatorScreen.current.style.display = "block";
       },
       onDrag: function () {
@@ -65,9 +65,9 @@ const VerticalSliderEase = (props) => {
       },
       onDragEnd: function () {
         animating = true;
-        gsap.to(decadeRef.current.style, {
-          opacity: 0,
-        });
+        // gsap.to(decadeRef.current.style, {
+        //   opacity: 0,
+        // });
         gsap.to(trigger, {
           scroll: (this.y / barLength) * maxScroll,
           ease: "linear.inOut",
@@ -149,58 +149,6 @@ const VerticalSliderEase = (props) => {
 
   return (
     <>
-      <div className="relative">
-        <div className="bar bg-[#959BA2] right-0 md:left-0 mr-[75px] md:ml-[75px] w-[2px] fixed top-0  bottom-0">
-          <div
-            ref={decadeRef}
-            className="opacity-0 fixed top-0 right-0 md:left-0 bottom-0"
-          >
-            {entries.map((entry, i) => {
-              if (!((i + 1) % 10)) {
-                return (
-                  <>
-                    <div
-                      className="w-[20px] h-[20px] absolute mr-[66px] md:ml-[66px] rounded-full bg-[#959BA2] opacity-30"
-                      style={{
-                        top: `${
-                          ((((endYear - startYear) / yearInterval) * i) /
-                            (endYear - startYear)) *
-                            2 -
-                          0.5
-                        }%`,
-                      }}
-                    ></div>
-                  </>
-                );
-              }
-            })}
-          </div>
-          <div
-            id="handler"
-            ref={handlerRef}
-            className="relative  -left-[9px] w-[20px] h-[20px]"
-            style={{
-              zIndex: 6,
-            }}
-          >
-            <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
-            <span
-              className="absolute top-0 left-[27px] md:right-[27px]"
-              ref={labelTextRef}
-            >
-              {startYear}
-            </span>
-          </div>
-        </div>
-        <div
-          ref={barRef}
-          className="opacity-0 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0 bottom-0 z-5"
-          style={{
-            zIndex: 5,
-          }}
-        ></div>
-      </div>
-
       <div>
         {entries.map((entry, i) => {
           // Return the element. Also pass key
@@ -231,6 +179,57 @@ const VerticalSliderEase = (props) => {
           }}
         >
           {currYear}
+        </div>
+      </div>
+      <div className="relative">
+        <div className="bar bg-[#959BA2] right-0 md:left-0 mr-[75px] md:ml-[75px] w-[2px] fixed top-0  bottom-0">
+          {/* <div
+            ref={decadeRef}
+            className="opacity-0 fixed top-0 right-0 md:left-0 bottom-0"
+          >
+            {entries.map((entry, i) => {
+              if (!((i + 1) % 10)) {
+                return (
+                  <>
+                    <div
+                      className="w-[20px] h-[20px] absolute mr-[66px] md:ml-[66px] rounded-full bg-[#959BA2] opacity-30"
+                      style={{
+                        top: `${
+                          ((((endYear - startYear) / yearInterval) * i) /
+                            (endYear - startYear)) *
+                            2 -
+                          0.5
+                        }%`,
+                      }}
+                    ></div>
+                  </>
+                );
+              }
+            })}
+          </div> */}
+          <div
+            ref={barRef}
+            className="opacity-0 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0 bottom-0 z-5"
+            style={{
+              zIndex: 5,
+            }}
+          ></div>
+          <div
+            id="handler"
+            ref={handlerRef}
+            className="relative  -left-[9px] w-[20px] h-[20px]"
+            style={{
+              zIndex: 6,
+            }}
+          >
+            <div className="w-[20px] h-[20px] rounded-full bg-[#959BA2]"></div>
+            <span
+              className="absolute top-0 left-[27px] md:right-[27px]"
+              ref={labelTextRef}
+            >
+              {startYear}
+            </span>
+          </div>
         </div>
       </div>
     </>
