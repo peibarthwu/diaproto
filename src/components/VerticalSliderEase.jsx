@@ -214,7 +214,7 @@ const VerticalSliderEase = (props) => {
 
           <div
             ref={barRef}
-            className="opacity-0 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0 bottom-0 z-5"
+            className="opacity-10 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0 bottom-0 z-5"
             style={{
               zIndex: 5,
             }}
@@ -250,6 +250,9 @@ const VerticalSliderEase = (props) => {
                             2 -
                           0.5
                         }%`,
+                      }}
+                      onClick={() => {
+                        console.log({ item });
                       }}
                     ></div>
                   </>
