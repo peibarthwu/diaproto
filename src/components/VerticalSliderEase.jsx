@@ -4,6 +4,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
 
+const filterDates = [1983, 1984, 1985, 1990, 2002, 2003, 2010];
+
 const VerticalSliderEase = (props) => {
   const horizontal = props.horizontal ? props.horizontal : false;
 
@@ -20,6 +22,7 @@ const VerticalSliderEase = (props) => {
   //   const endYear = 2024;
   const endYear = 2024;
   const [currYear, setCurrYear] = useState(startYear);
+  const [showFilters, setShowFilters] = useState(false);
 
   let entries = [];
   const numYears = (endYear - startYear) / yearInterval;
@@ -129,6 +132,7 @@ const VerticalSliderEase = (props) => {
 
     //horizontal scrubbing
     if (horizontal) {
+      document.body.style.overflowX = "hidden";
       let yearEntries = document.querySelectorAll(".year-entry");
       for (let i = 0; i < yearEntries.length; i++) {
         let sections = gsap.utils.toArray(".panel", yearEntries[i]);
@@ -207,6 +211,7 @@ const VerticalSliderEase = (props) => {
               }
             })}
           </div> */}
+
           <div
             ref={barRef}
             className="opacity-0 bar bg-[#3392ff] mr-[53px] md:ml-[53px] right-0 md:left-0 w-[44px] fixed top-0 bottom-0 z-5"
@@ -230,8 +235,41 @@ const VerticalSliderEase = (props) => {
               {startYear}
             </span>
           </div>
+          {showFilters == true ? (
+            <div className="fixed top-0 right-0 md:left-0 bottom-0">
+              {filterDates.map((item, i) => {
+                return (
+                  <>
+                    <div
+                      className="w-[12px] h-[12px] absolute mr-[55px] md:ml-[55px] rounded-full border-[#959BA2] border-[1.5px]"
+                      style={{
+                        top: `${
+                          ((((endYear - startYear) / yearInterval) *
+                            (endYear - item)) /
+                            (endYear - startYear)) *
+                            2 -
+                          0.5
+                        }%`,
+                      }}
+                    ></div>
+                  </>
+                );
+              })}
+            </div>
+          ) : (
+            <> </>
+          )}
         </div>
       </div>
+      <button
+        className="fixed bottom-0 left-0 bg-[#959BA2] p-1"
+        onClick={() => {
+          setShowFilters(!showFilters);
+          console.log(showFilters);
+        }}
+      >
+        Toggle Filter Labels {showFilters}
+      </button>
     </>
   );
 };
