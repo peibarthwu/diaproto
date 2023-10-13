@@ -236,12 +236,12 @@ const VerticalSliderEase = (props) => {
             </span>
           </div>
           {showFilters == true ? (
-            <div className="fixed top-0 right-0 md:left-0 bottom-0">
+            <div className="fixed top-0 md:left-0 bottom-0">
               {filterDates.map((item, i) => {
                 return (
                   <>
                     <div
-                      className="w-[12px] h-[12px] absolute mr-[55px] md:ml-[55px] rounded-full border-[#959BA2] border-[1.5px]"
+                      className="w-[12px] h-[12px] absolute md:mr-[55px] ml-[8px] md:ml-[55px] rounded-full border-[#959BA2] border-[1.5px]"
                       style={{
                         top: `${
                           ((((endYear - startYear) / yearInterval) *
