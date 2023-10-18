@@ -11,3 +11,4 @@ export { default as SlideableDecades } from "./SlideableDecades";
 export { default as SpaceTime } from "./SpaceTime";
 export { default as VerticalSlider } from "./VerticalSlider";
 export { default as VerticalSliderEase } from "./VerticalSliderEase";
+export { default as FilterDot } from "./FilterDot";

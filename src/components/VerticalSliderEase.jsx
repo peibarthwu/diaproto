@@ -3,7 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
-
+import FilterDot from "./FilterDot";
 const filterDates = [1983, 1984, 1985, 1990, 2002, 2003, 2010];
 
 const VerticalSliderEase = (props) => {
@@ -235,34 +235,27 @@ const VerticalSliderEase = (props) => {
               {startYear}
             </span>
           </div>
-          {showFilters == true ? (
-            <div className="fixed top-0 md:left-0 bottom-0">
-              {filterDates.map((item, i) => {
-                return (
-                  <>
-                    <div
-                      className="w-[12px] h-[12px] absolute md:mr-[55px] ml-[8px] md:ml-[55px] rounded-full border-[#959BA2] border-[1.5px]"
-                      style={{
-                        top: `${
-                          ((((endYear - startYear) / yearInterval) *
-                            (endYear - item)) /
-                            (endYear - startYear)) *
-                            2 -
-                          0.5
-                        }%`,
-                      }}
-                      onClick={() => {
-                        console.log({ item });
-                      }}
-                    ></div>
-                  </>
-                );
-              })}
-            </div>
-          ) : (
-            <> </>
-          )}
         </div>
+        {showFilters == true ? (
+          <div className="fixed top-0 md:left-0 bottom-0">
+            {filterDates.map((item, i) => {
+              return (
+                <div
+                  className="absolute md:mr-[55px] ml-[-5px] md:ml-[70px]"
+                  style={{
+                    zIndex: 7,
+                    top: `${100 - (100 * (endYear - item)) / numYears}%`,
+                  }}
+                  key={i}
+                >
+                  <FilterDot year={item} />
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          <> </>
+        )}
       </div>
       <button
         className="fixed bottom-0 left-0 bg-[#959BA2] p-1"
