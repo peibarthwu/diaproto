@@ -1,8 +1,20 @@
 import React from "react";
-import { VerticalSliderEase } from "../components";
+import { HorizontalSection, Prototype, Example } from "../components";
 
 const Prototype1 = () => {
-  return <VerticalSliderEase horizontal={false} />;
+  return (
+    <>
+      {/* <Example />
+      <HorizontalSection
+        entries={[
+          { title: "Entry 1" },
+          { title: "Entry 2" },
+          { title: "Entry 3" },
+        ]}
+      /> */}
+      <Prototype horizontal={false} />
+    </>
+  );
 };
 
 export default Prototype1;

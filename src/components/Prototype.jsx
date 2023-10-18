@@ -4,9 +4,11 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Draggable } from "gsap/Draggable";
 import FilterDot from "./FilterDot";
+import HorizontalDrag from "./HorizontalDrag";
+import HorizontalSection from "./HorizontalSection";
 const filterDates = [1983, 1984, 1985, 1990, 2002, 2003, 2010];
 
-const VerticalSliderEase = (props) => {
+const Prototype = (props) => {
   const horizontal = props.horizontal ? props.horizontal : false;
 
   const handlerRef = useRef(null);
@@ -133,7 +135,6 @@ const VerticalSliderEase = (props) => {
 
     //horizontal scrubbing
     if (horizontal) {
-      document.body.style.overflowX = "hidden";
       let yearEntries = document.querySelectorAll(".year-entry");
       for (let i = 0; i < yearEntries.length; i++) {
         let sections = gsap.utils.toArray(".panel", yearEntries[i]);
@@ -158,21 +159,15 @@ const VerticalSliderEase = (props) => {
         {entries.map((entry, i) => {
           // Return the element. Also pass key
           return (
-            <div className="flex flex-row year-entry flex-nowrap w-[300vw]">
-              {entry.entries.map((entry, j) => {
-                return (
-                  <section
-                    className="panel w-screen h-screen flex justify-center items-center text-3xl"
-                    style={{
-                      backgroundColor: `${i % 2 ? "#555555" : "white"}`,
-                      color: `${i % 2 ? "#ffffff" : "#555555"}`,
-                    }}
-                    key={entries.length + i + j}
-                  >
-                    {startYear + i}, {entry.title}
-                  </section>
-                );
-              })}
+            <div
+              className="flex flex-row year-entry flex-nowrap h-screen"
+              key={i}
+              style={{
+                backgroundColor: `${i % 2 ? "#555555" : "white"}`,
+                color: `${i % 2 ? "#ffffff" : "#555555"}`,
+              }}
+            >
+              <HorizontalSection entries={entry.entries} />
             </div>
           );
         })}
@@ -246,4 +241,4 @@ const VerticalSliderEase = (props) => {
   );
 };
 
-export default VerticalSliderEase;
+export default Prototype;

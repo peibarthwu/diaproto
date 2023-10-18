@@ -12,3 +12,6 @@ export { default as SpaceTime } from "./SpaceTime";
 export { default as VerticalSlider } from "./VerticalSlider";
 export { default as VerticalSliderEase } from "./VerticalSliderEase";
 export { default as FilterDot } from "./FilterDot";
+export { default as HorizontalSection } from "./HorizontalSection";
+export { default as Prototype } from "./Prototype";
+export { default as Example } from "./Example";

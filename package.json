@@ -15,7 +15,9 @@
     "react-collapsible": "^2.10.0",
     "react-dom": "^18.2.0",
     "react-draggable": "^4.4.5",
+    "react-indiana-drag-scroll": "^3.0.3-alpha",
     "react-router-dom": "^6.14.2",
+    "scrollbooster": "^3.0.2",
     "three": "^0.154.0"
   },
   "devDependencies": {
