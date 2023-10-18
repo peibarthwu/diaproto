@@ -13,7 +13,6 @@ const Prototype = (props) => {
 
   const handlerRef = useRef(null);
   const labelTextRef = useRef(null);
-  const decadeRef = useRef(null);
   const barRef = useRef(null);
   const dragIndicatorScreen = useRef(null);
   gsap.registerPlugin(ScrollTrigger);
@@ -42,20 +41,15 @@ const Prototype = (props) => {
     let handler = handlerRef.current,
       barLength,
       maxScroll,
-      trigger,
-      draggable;
-    console.log(handler);
+      trigger;
     let animating = false;
 
     trigger = ScrollTrigger.create({
       onRefresh: onResize,
       onUpdate: updateHandler,
-      snap: horizontal ? false : 1 / (numYears - 1),
     });
 
-    // decadeRef.current.style.opacity = 0;
-
-    draggable = Draggable.create(handler, {
+    Draggable.create(handler, {
       type: "y",
       bounds: ".bar",
       onDragStart: function () {
@@ -68,14 +62,13 @@ const Prototype = (props) => {
       onDragEnd: function () {
         animating = true;
         const closestYear = parseInt(
-          (this.y / barLength) * (endYear - startYear) + startYear
+          startYear + (this.y / barLength) * numYears
         );
+        const fraction = (closestYear - startYear) / numYears;
+        console.log({ fraction });
 
-        const interval = barLength / (endYear - startYear);
-        const closestInterval = interval * (closestYear - startYear);
-        console.log(closestInterval);
         gsap.to(trigger, {
-          scroll: (this.y / barLength) * maxScroll,
+          scroll: fraction * maxScroll,
           ease: "linear.inOut",
           duration: 1,
           onComplete: () => {
@@ -132,35 +125,15 @@ const Prototype = (props) => {
         },
       });
     });
-
-    //horizontal scrubbing
-    if (horizontal) {
-      let yearEntries = document.querySelectorAll(".year-entry");
-      for (let i = 0; i < yearEntries.length; i++) {
-        let sections = gsap.utils.toArray(".panel", yearEntries[i]);
-        const tween = gsap.to(sections, {
-          xPercent: -100 * (sections.length - 1),
-          ease: "none",
-          scrollTrigger: {
-            trigger: yearEntries[i],
-            pin: true,
-            scrub: 1,
-            // snap: 1 / (sections.length - 1),
-            end: () => "+=" + yearEntries[i].offsetWidth,
-          },
-        });
-      }
-    }
   }, []);
 
   return (
     <>
       <div>
         {entries.map((entry, i) => {
-          // Return the element. Also pass key
           return (
             <div
-              className="flex flex-row year-entry flex-nowrap h-screen"
+              className="flex flex-row year-entry flex-nowrap h-screen opacity-50"
               key={i}
               style={{
                 backgroundColor: `${i % 2 ? "#555555" : "white"}`,
