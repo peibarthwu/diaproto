@@ -9,6 +9,7 @@ import Experiment2 from "./pages/experiment2";
 import Experiment3 from "./pages/experiment3";
 import Prototype1 from "./pages/prototype1";
 import Prototype2 from "./pages/prototype2";
+import Test from "./pages/splidetest";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path="/experiment3" element={<Experiment3 />} />
         <Route path="/prototype1" element={<Prototype1 />} />
         <Route path="/prototype2" element={<Prototype2 />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   );

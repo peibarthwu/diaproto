@@ -15,3 +15,4 @@ export { default as FilterDot } from "./FilterDot";
 export { default as HorizontalSection } from "./HorizontalSection";
 export { default as Prototype } from "./Prototype";
 export { default as Example } from "./Example";
+export { default as SplideTest } from "./SplideTest";
